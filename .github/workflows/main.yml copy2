@@ -27,14 +27,14 @@ defaults:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       HUGO_VERSION: ${{ vars.HUGO_VERSION }}
     steps:
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://GitHub.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb          
+          wget -O ${{ runner.temp }}/hugo.zip https://GitHub.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_windows-amd64.zip \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.zip          
       - name: Install Dart Sass
         run: sudo snap install dart-sass
       - name: Checkout
@@ -60,7 +60,7 @@ jobs:
 
   # Deployment job
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     steps:
       - name: Download artifacts (Docker images) from previous workflows
@@ -72,7 +72,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: arn:aws:iam::123456789012:role/MyHugoProject_S3Deployer
+          role-to-assume: arn:aws:iam::585008046927:role/MyHugoProject_S3Deployer
           role-session-name: GithubActions-MyHugoProject
           mask-aws-account-id: true
       - name: Sync to S3
