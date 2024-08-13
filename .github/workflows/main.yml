@@ -29,7 +29,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: ${{ vars.HUGO_VERSION }}
+      HUGO_VERSION: 0.132.0
     steps:
       - name: Install Hugo CLI
         run: |
@@ -71,13 +71,13 @@ jobs:
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: us-east-1
           role-to-assume: arn:aws:iam::585008046927:role/MyHugoProject_S3Deployer
           role-session-name: GithubActions-MyHugoProject
           mask-aws-account-id: true
       - name: Sync to S3
         id: deployment
-        run: aws s3 sync ./public/ s3://${{ vars.BUCKET_NAME }} --size-only --delete --cache-control max-age=31536000
+        run: aws s3 sync ./public/ s3://www.mansureproject.com --size-only --delete --cache-control max-age=31536000
       - name: Cloudfront Invalidation
         id: flushcache
-        run: aws cloudfront create-invalidation --distribution-id ${{ vars.CF_DISTRIBUTION_ID }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id E28GHHKLHTAU6V --paths "/*"
