@@ -1,4 +1,4 @@
 baseURL = 'https://sourcinema.com/'
 languageCode = 'en-us'
 title = 'Sour Cinema'
-theme = 'ananke'
+theme = "hugo-theme-console"
